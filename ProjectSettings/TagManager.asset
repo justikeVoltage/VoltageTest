@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - EditorRibbon
+  - EditorActionTrigger
+  - EditorVideoTrigger
+  - EditorSocket
+  - OBIParent
+  - EditorPotHook_Install
   layers:
   - Default
   - TransparentFX
@@ -11,10 +17,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Grabbing
+  - Grabbable
+  - Hand
+  - HandPlayer
   - 
   - 
   - 
