@@ -92,5 +92,71 @@ namespace Voltage
             if (_grabbable == null) _grabbable = GetComponentInParent<Grabbable>();
             return _grabbable;
         }
+
+        #region Public API for AutoCircularPointTools
+        
+        /// <summary>
+        /// 设置Plug的KeyID - 为AutoCircularPointTools提供的公共接口
+        /// </summary>
+        /// <param name="keyID">要设置的KeyID</param>
+        /// <returns>是否设置成功</returns>
+        public bool SetPlugKeyID(int keyID)
+        {
+            try
+            {
+                Debug.Log($"🔑 Plug_Grabbable.SetPlugKeyID: 开始设置KeyID为 {keyID}");
+                
+                // 如果没有Key，创建一个新的KeyWithPlug实例
+                if (Key == null)
+                {
+                    Debug.Log($"🔧 创建新的KeyWithPlug实例");
+                    // 通过反射设置父类的m_key字段
+                    var keyField = this.GetType().BaseType.GetField("m_key", 
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    
+                    if (keyField != null)
+                    {
+                        KeyWithPlug newKey = new KeyWithPlug();
+                        keyField.SetValue(this, newKey);
+                        Debug.Log($"✅ 成功创建并设置新的KeyWithPlug实例");
+                    }
+                    else
+                    {
+                        Debug.LogError($"❌ 无法找到PlugBase的m_key字段");
+                        return false;
+                    }
+                }
+                
+                // 使用KeyBase的公共方法设置KeyID
+                if (Key != null)
+                {
+                    Key.SetKeyId(keyID);
+                    
+                    // 验证设置是否成功
+                    if (Key.KeyId == keyID)
+                    {
+                        Debug.Log($"✅ 成功设置Plug KeyID为 {keyID}");
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.LogError($"❌ KeyID设置验证失败，期望: {keyID}, 实际: {Key.KeyId}");
+                        return false;
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"❌ Key仍然为null，无法设置KeyID");
+                    return false;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"❌ 设置KeyID时发生异常: {ex.Message}");
+                return false;
+            }
+        }
+        
+        #endregion
     }
 }

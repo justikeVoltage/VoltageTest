@@ -504,6 +504,22 @@ namespace Voltage
             rope.path.filters[index] = ObiUtils.MakeFilter(ObiUtils.GetMaskFromFilter(rope.path.filters[index]), m_Category);
             rope.path.filters[index] = ObiUtils.MakeFilter(m_Mask, ObiUtils.GetCategoryFromFilter(rope.path.filters[index]));
         }
+
+        #region Public API for external tools (AutoCircularPointOnSocket)
+        // 说明：以下方法为外部工具调用而暴露的包装接口，内部仍调用受保护/私有实现，避免直接访问私有成员。
+        public void Public_SetControlPointProperty(ObiRopeBase rope, int index)
+        {
+            SetControlPointProperty(rope, index);
+        }
+        public void Public_RemoveAllMiddleControlPoints(ObiRopeBase rope)
+        {
+            RemoveControlPoint(rope, ObiPointRemoveMode.Middle);
+        }
+        public void Public_ResetNodeProperties(ObiRopeBase rope)
+        {
+            ResetNodeproperties(rope);
+        }
+        #endregion
         /// <summary>
         /// 删除节点
         /// </summary>

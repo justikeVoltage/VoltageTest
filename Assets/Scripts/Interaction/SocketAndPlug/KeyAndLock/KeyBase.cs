@@ -23,6 +23,16 @@ namespace Voltage
         [SerializeField] private int m_keyId;
         
         public int KeyId { get { return m_keyId; } }
+        
+        /// <summary>
+        /// 设置KeyID - 为工具脚本提供的公共接口
+        /// </summary>
+        /// <param name="newKeyId">新的KeyID</param>
+        public virtual void SetKeyId(int newKeyId)
+        {
+            m_keyId = newKeyId;
+            Debug.Log($"✅ KeyBase.SetKeyId: 成功设置KeyID为 {newKeyId}");
+        }
 
         public static bool Match(KeyBase _key, LockBase _lock)
         {
